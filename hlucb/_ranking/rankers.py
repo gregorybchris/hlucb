@@ -1,2 +1,0 @@
-def rank() -> None:
-    pass

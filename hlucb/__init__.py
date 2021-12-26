@@ -1,5 +1,5 @@
 """Module init."""
 
-from hlucb._ranking.rankers import rank
+from hlucb._hamming_lucb import HammingLUCB
 
-__all__ = ['rank']
+__all__ = ['HammingLUCB']
