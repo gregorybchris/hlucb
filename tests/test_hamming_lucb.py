@@ -31,13 +31,33 @@ class TestHammingLUCB:
         generator = HammingLUCB.get_generator(n, k, h, delta, seed=42)
         scores = None
         bounds = None
+        counter = 0
         for (i, j), (scores, bounds) in generator:
+            counter += 1
             generator.send(self._compare(items[i], items[j]))
 
         order = np.argsort(scores)[::-1]
         items_arr = np.array(items)
+        print(f"Used {counter} comparisons")
         plot_scores(items_arr[order], scores[order], bounds[order])
 
     @staticmethod
     def _compare(item_a: int, item_b: int) -> bool:
         return item_a > item_b
+
+    def test_score_argminmax(self):
+        alpha = np.array([3, 6, 1, 2, 4, 5])
+        o = np.argsort(alpha)
+        xs = np.array([12, 11, 7, 10, 8, 9])
+
+        assert HammingLUCB._score_argmin(xs, o, 0, 1) == 2
+        assert HammingLUCB._score_argmax(xs, o, 0, 1) == 2
+
+        assert HammingLUCB._score_argmin(xs, o, 1, 4) == 4
+        assert HammingLUCB._score_argmax(xs, o, 1, 4) == 0
+
+        assert HammingLUCB._score_argmin(xs, o, 3, 5) == 4
+        assert HammingLUCB._score_argmax(xs, o, 3, 5) == 5
+
+        assert HammingLUCB._score_argmin(xs, o, 5, 6) == 1
+        assert HammingLUCB._score_argmax(xs, o, 5, 6) == 1

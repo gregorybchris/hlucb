@@ -23,6 +23,18 @@ class HammingLUCB(Generic[T]):
             generator.send(comparator(items[i], items[j]))
         return result
 
+    @staticmethod
+    def _score_argmin(xs: np.ndarray, o: np.ndarray, left: int, right: int) -> int:
+        if right <= left:
+            raise ValueError("Invalid bounds on argmin")
+        return o[np.argmin(xs[o][left:right]) + left]
+
+    @staticmethod
+    def _score_argmax(xs: np.ndarray, o: np.ndarray, left: int, right: int) -> int:
+        if right <= left:
+            raise ValueError("Invalid bounds on argmin")
+        return o[np.argmax(xs[o][left:right]) + left]
+
     @classmethod
     def get_generator(
         cls,
@@ -65,22 +77,19 @@ class HammingLUCB(Generic[T]):
             beta: np.ndarray = np.log(n / delta) + 0.75 * np.log(np.log(n / delta)) + 1.5 * np.log(1 + np.log(u / 2))
             alpha = np.sqrt(beta / (2 * u))
 
-            def score_argmin(xs: np.ndarray, o: np.ndarray, left: int, right: int) -> int:
-                return o[np.argmin(xs[o][left:right]) + left]
-
             # Index of the lowest lower bound in the high-scoring set
-            d1 = score_argmin(tau - alpha, o, 0, k - h)
+            d1 = cls._score_argmin(tau - alpha, o, 0, k - h)
 
             # Index of the highest upper bound in the low-scoring set
-            d2 = score_argmin(-1 * (tau + alpha), o, k + h, n)
+            d2 = cls._score_argmax((tau + alpha), o, k + h, n)
 
             # Index of highest uncertainty in upper half of middle set
-            b1 = score_argmin(-1 * alpha, o, k - h, k)
+            b1 = cls._score_argmax(alpha, o, k - h, k)
             if alpha[d1] > alpha[b1]:
                 b1 = d1
 
             # Index of highest uncertainty in lower half of middle set
-            b2 = score_argmin(-1 * alpha, o, k, k + h)
+            b2 = cls._score_argmax(alpha, o, k, k + h)
             if alpha[d2] > alpha[b2]:
                 b2 = d2
 
