@@ -54,22 +54,7 @@ ignore_missing_imports = true
 plugins = ["numpy.typing.mypy_plugin"]
 
 [tool.pylint.basic]
-good-names = [
-  "a",
-  "b",
-  "e",
-  "f",
-  "h",
-  "i",
-  "j",
-  "k",
-  "m",
-  "n",
-  "w",
-  "x",
-  "xs",
-  "y",
-]
+good-names = ["h", "i", "j", "k", "n", "o", "xs"]
 max-locals = 25
 notes = ["FIXME"]
 

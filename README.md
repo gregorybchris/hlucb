@@ -65,7 +65,7 @@ Parameters:
 
 - $n$ - the total number of items
 - $k$ - the number of items to extract as high-scoring items
-- $h$ - the number of ranking mistakes permitted
+- $h$ - half the margin between $S_1$ and $S_2$
 - $\delta$ - confidence parameter for the probability of achieving $h$-Hamming accuracy
 
 Definitions:

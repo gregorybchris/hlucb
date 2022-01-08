@@ -45,19 +45,19 @@ class TestHammingLUCB:
     def _compare(item_a: int, item_b: int) -> bool:
         return item_a > item_b
 
-    def test_score_argminmax(self):
+    def test_score_argm(self) -> None:
         alpha = np.array([3, 6, 1, 2, 4, 5])
         o = np.argsort(alpha)
         xs = np.array([12, 11, 7, 10, 8, 9])
 
-        assert HammingLUCB._score_argmin(xs, o, 0, 1) == 2
-        assert HammingLUCB._score_argmax(xs, o, 0, 1) == 2
+        assert HammingLUCB._score_argm(xs, o, 0, 1, minmax='min') == 2
+        assert HammingLUCB._score_argm(xs, o, 0, 1, minmax='max') == 2
 
-        assert HammingLUCB._score_argmin(xs, o, 1, 4) == 4
-        assert HammingLUCB._score_argmax(xs, o, 1, 4) == 0
+        assert HammingLUCB._score_argm(xs, o, 1, 4, minmax='min') == 4
+        assert HammingLUCB._score_argm(xs, o, 1, 4, minmax='max') == 0
 
-        assert HammingLUCB._score_argmin(xs, o, 3, 5) == 4
-        assert HammingLUCB._score_argmax(xs, o, 3, 5) == 5
+        assert HammingLUCB._score_argm(xs, o, 3, 5, minmax='min') == 4
+        assert HammingLUCB._score_argm(xs, o, 3, 5, minmax='max') == 5
 
-        assert HammingLUCB._score_argmin(xs, o, 5, 6) == 1
-        assert HammingLUCB._score_argmax(xs, o, 5, 6) == 1
+        assert HammingLUCB._score_argm(xs, o, 5, 6, minmax='min') == 1
+        assert HammingLUCB._score_argm(xs, o, 5, 6, minmax='max') == 1
