@@ -38,7 +38,7 @@ class TestHammingLUCB:
 
         order = np.argsort(scores)[::-1]
         items_arr = np.array(items)
-        print(f"Used {counter} comparisons")
+        logger.info(f"Used {counter} comparisons")
         plot_scores(items_arr[order], scores[order], bounds[order])
 
     @staticmethod
